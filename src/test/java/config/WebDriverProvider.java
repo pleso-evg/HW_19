@@ -11,7 +11,6 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 public class WebDriverProvider {
     private final WebDriverConfig config = ConfigFactory.create(WebDriverConfig.class, System.getProperties());
 
-    // Добавляем геттер для конфига
     public WebDriverConfig getConfig() {
         return config;
     }
