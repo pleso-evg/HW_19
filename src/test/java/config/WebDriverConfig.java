@@ -9,6 +9,14 @@ import java.net.URL;
 })
 public interface WebDriverConfig extends Config {
 
+    @Key("pageLoadTimeout")
+    @DefaultValue("30000")
+    long pageLoadTimeout();
+
+    @Key("implicitWait")
+    @DefaultValue("5000")
+    long implicitWait();
+
     @Key("browser")
     @DefaultValue("CHROME")
     Browser browser();

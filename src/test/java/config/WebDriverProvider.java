@@ -9,16 +9,25 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 
 public class WebDriverProvider {
-
     private final WebDriverConfig config = ConfigFactory.create(WebDriverConfig.class, System.getProperties());
 
+    // Добавляем геттер для конфига
+    public WebDriverConfig getConfig() {
+        return config;
+    }
+
     public WebDriver get() {
-        if (config.isRemote()) {
-            return createRemoteWebDriver();
-        } else {
-            return createLocalWebDriver();
+        try {
+            if (config.isRemote()) {
+                return createRemoteWebDriver();
+            } else {
+                return createLocalWebDriver();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create WebDriver: " + e.getMessage(), e);
         }
     }
+
 
     private WebDriver createRemoteWebDriver() {
         switch (config.browser()) {
