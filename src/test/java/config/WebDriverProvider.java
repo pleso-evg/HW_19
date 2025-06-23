@@ -7,53 +7,53 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+import java.util.function.Supplier;
 
-public class WebDriverProvider {
+import static com.codeborne.selenide.Browsers.CHROME;
+import static com.codeborne.selenide.Browsers.FIREFOX;
+
+
+
+public class WebDriverProvider implements Supplier<WebDriver> {
+
     private final WebDriverConfig config = ConfigFactory.create(WebDriverConfig.class, System.getProperties());
 
-    // Добавляем геттер для конфига
-    public WebDriverConfig getConfig() {
-        return config;
-    }
 
     public WebDriver get() {
-        try {
-            if (config.isRemote()) {
-                return createRemoteWebDriver();
-            } else {
-                return createLocalWebDriver();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create WebDriver: " + e.getMessage(), e);
+
+        if (config.isRemote()) {
+            return createRemoteWebDriver();
+        } else {
+            return createLocalWebDriver();
         }
     }
 
-
     private WebDriver createRemoteWebDriver() {
-        switch (config.browser()) {
+        switch (config.getBrowser()) {
             case CHROME:
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setBrowserVersion(config.browserVersion());
-                return new RemoteWebDriver(config.remoteUrl(), chromeOptions);
+                return new RemoteWebDriver(config.getRemoteURL(), chromeOptions);
             case FIREFOX:
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.setBrowserVersion(config.browserVersion());
-                return new RemoteWebDriver(config.remoteUrl(), firefoxOptions);
+                return new RemoteWebDriver(config.getRemoteURL(), firefoxOptions);
             default:
-                throw new RuntimeException("Unsupported browser for remote: " + config.browser());
+                throw new RuntimeException("Unsupported browser: " + config.getBrowser());
         }
     }
 
     private WebDriver createLocalWebDriver() {
-        return switch (config.browser()) {
+        switch (config.getBrowser()) {
             case CHROME -> {
                 WebDriverManager.chromedriver().setup();
-                yield new org.openqa.selenium.chrome.ChromeDriver();
+                return new org.openqa.selenium.chrome.ChromeDriver();
             }
             case FIREFOX -> {
                 WebDriverManager.firefoxdriver().setup();
-                yield new org.openqa.selenium.firefox.FirefoxDriver();
+                return new org.openqa.selenium.firefox.FirefoxDriver();
             }
-        };
+            default -> throw new RuntimeException("Unsupported browser: " + config.getBrowser());
+        }
     }
 }

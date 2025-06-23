@@ -13,20 +13,12 @@ public abstract class TestBase {
     protected WebDriver driver;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         driver = new WebDriverProvider().get();
-        driver.manage().timeouts().pageLoadTimeout(
-                new WebDriverProvider().getConfig().pageLoadTimeout(),
-                TimeUnit.MILLISECONDS
-        );
-        driver.manage().timeouts().implicitlyWait(
-                new WebDriverProvider().getConfig().implicitWait(),
-                TimeUnit.MILLISECONDS
-        );
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         if (driver != null) {
             driver.quit();
         }

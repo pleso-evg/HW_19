@@ -1,6 +1,7 @@
 package config;
 
 import org.aeonbits.owner.Config;
+import com.codeborne.selenide.Browser;
 
 import java.net.URL;
 
@@ -9,27 +10,19 @@ import java.net.URL;
 })
 public interface WebDriverConfig extends Config {
 
-    @Key("pageLoadTimeout")
-    @DefaultValue("30000")
-    long pageLoadTimeout();
-
-    @Key("implicitWait")
-    @DefaultValue("5000")
-    long implicitWait();
-
     @Key("browser")
-    @DefaultValue("CHROME")
-    Browser browser();
+    @DefaultValue("chrome")
+    String getBrowser();
 
     @Key("version")
     @DefaultValue("127.0")
     String browserVersion();
 
-    @Key("remoteUrl")
-    @DefaultValue("https://user1:1234@selenoid.autotests.cloud/wd/hub")
-    URL remoteUrl();
-
     @Key("isRemote")
     @DefaultValue("false")
     boolean isRemote();
+
+    @Key("remoteUrl")
+    @DefaultValue("https://user1:1234@selenoid.autotests.cloud/wd/hub")
+    URL getRemoteURL();
 }
