@@ -12,12 +12,9 @@ import java.util.function.Supplier;
 import static com.codeborne.selenide.Browsers.CHROME;
 import static com.codeborne.selenide.Browsers.FIREFOX;
 
-
-
 public class WebDriverProvider implements Supplier<WebDriver> {
 
     private final WebDriverConfig config = ConfigFactory.create(WebDriverConfig.class, System.getProperties());
-
 
     public WebDriver get() {
 

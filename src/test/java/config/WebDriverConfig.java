@@ -1,7 +1,6 @@
 package config;
 
 import org.aeonbits.owner.Config;
-import com.codeborne.selenide.Browser;
 
 import java.net.URL;
 
