@@ -1,23 +1,19 @@
 package tests;
 
+import com.codeborne.selenide.WebDriverRunner;
 import config.WebDriverProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.WebDriver;
 
 public abstract class TestBase {
 
-    protected WebDriver driver;
-
     @BeforeEach
-    void setUp() {
-        driver = new WebDriverProvider().get();
+    public void startDriver() {
+        new WebDriverProvider().get();
     }
 
     @AfterEach
-    void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+    public void stopDriver() {
+        WebDriverRunner.closeWebDriver();
     }
 }
